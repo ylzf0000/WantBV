@@ -1,28 +1,113 @@
+{% load static %}
 <html lang="utf-8">
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-    <script src="https://unpkg.com/vue@next"></script>
-    <!-- import CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/element-plus/dist/index.css">
-    <!-- import JavaScript -->
-    <script src="https://unpkg.com/element-plus"></script>
+
+    <link rel="stylesheet" href="//unpkg.com/element-plus/dist/index.css"/>
+
+    <script src="{% static 'js/vue@3.2.47/dist/vue.global.js' %}"></script>
+    <script src="{% static 'js/@element-plus/icons-vue@2.0.10/dist/index.iife.min.js' %}"></script>
+    <script src="{% static 'js/element-plus@2.2.29/dist/index.full.js' %}"></script>
+    <script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>
+
+    {#    <script src="//unpkg.com/vue@3"></script>#}
+    {#    <script src="//unpkg.com/element-plus"></script>#}
+    {#    <script src="//unpkg.com/@element-plus/icons-vue"></script>#}
+
     <title>Element Plus demo</title>
 </head>
 <body>
-<div id="app">
-    <el-button>{$ message $}</el-button>
+<div id="app" style="font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB',
+  'Microsoft YaHei', '微软雅黑', Arial, sans-serif;">
+    <div class="common-layout">
+        <el-container>
+            <el-header style="background-color:#545c64">
+                <div>
+                    <h1 style="color:#fff">I Want BV</h1>
+                </div>
+
+                <el-divider></el-divider>
+            </el-header>
+            <el-container>
+                <el-aside width="200px">
+                    <el-menu
+                            active-text-color="#ffd04b"
+                            background-color="#545c64"
+                            class="el-menu-vertical-demo"
+                            default-active="1"
+                            text-color="#fff"
+                            @open="handleOpen"
+                            @close="handleClose"
+                    >
+                        <el-menu-item index="2">
+                            <el-icon>
+                                <Video-Play></Video-Play>
+                            </el-icon>
+                            <span>视频</span>
+                        </el-menu-item>
+                        <el-menu-item index="4">
+                            <el-icon>
+                                <Picture-Filled></Picture-Filled>
+                            </el-icon>
+                            <span>图片</span>
+                        </el-menu-item>
+                    </el-menu>
+                </el-aside>
+                <el-container>
+                    <el-main>
+                        {#                        <el-image style="width: 1920px; height: 1080px"#}
+                        {#                                  src="data:image/png;base64,{{ image }}"#}
+                        {#                                  src="{% static 'images/风之领域/风之领域 [007] [50P]/www.xiuxiqu.vip]FZLY-011.jpg' %}"#}
+                        {#                                  fit="scale-down">#}
+                        {##}
+                        {#                        </el-image>#}
+
+
+                                <div v-for="fit in image_dirs" :key="fit" class="block">
+                                    <span>{$ fit $}</span>
+                                    <span>hhh</span>
+                                    {#                                <el-image style="width: 100px; height: 100px" :src="url" :fit="fit"/>#}
+                                </div>
+
+
+                        {#                        {{ image_dirs }}#}
+                    </el-main>
+
+                </el-container>
+            </el-container>
+            <el-footer>Footer</el-footer>
+        </el-container>
+    </div>
 </div>
 <script>
     const App = {
         data() {
             return {
                 message: "Hello Element Plus",
+                image_dirs: []
+                {#logo:'file:///E:/user/84978/images/风之领域/风之领域 [001][49P]/www.xiuxiqu.vip]FENG-012.jpg'#}
             };
+        },
+        mounted() {
+            const self = this;
+            axios.get("{% url 'get_image_dirs' %}")
+                .then(function (response) {
+                    self.image_dirs = response['data']['image_dirs'];
+                    console.log(self.image_dirs);
+                })
+                .catch(function (error) { // 请求失败处理
+                    console.log(error);
+                });
         },
         delimiters: ['{$', '$}'], // 默认的delimiters与 django相同，修改之
     };
+    const url =
+        'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg';
     const app = Vue.createApp(App);
+    for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+        app.component(key, component);
+    }
     app.use(ElementPlus);
     app.mount("#app");
 </script>

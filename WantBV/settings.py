@@ -15,7 +15,6 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
@@ -25,8 +24,7 @@ SECRET_KEY = 'django-insecure-!#yfowl2un^4&e3l*efk4v4q4!tt-!sfna@b+&t)y=lr*mvv0d
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['192.168.31.187']
 
 # Application definition
 
@@ -69,7 +67,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'WantBV.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
@@ -79,7 +76,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -99,7 +95,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
@@ -113,20 +108,19 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
-# STATIC_ROOT = os.path.join(BASE_DIR, "static")
-# STATICFILES_DIRS = [
-#     ('css', os.path.join(STATIC_ROOT, "css")),
-#     ('data', os.path.join(STATIC_ROOT, "data")),
-#     ('font-awesome', os.path.join(STATIC_ROOT, "font-awesome")),
-#     ('images', os.path.join(STATIC_ROOT, "images")),
-#     ('js', os.path.join(STATIC_ROOT, "js")),
-#     ('plugins', os.path.join(STATIC_ROOT, "plugins")),
-# ]
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
+STATICFILES_DIRS = [
+    ('css', os.path.join(STATIC_ROOT, "css")),
+    ('data', os.path.join(STATIC_ROOT, "data")),
+    ('font-awesome', os.path.join(STATIC_ROOT, "font-awesome")),
+    ('images', r"E:\user\84978\images"),
+    ('js', os.path.join(STATIC_ROOT, "js")),
+    ('plugins', os.path.join(STATIC_ROOT, "plugins")),
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

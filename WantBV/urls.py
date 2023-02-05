@@ -26,6 +26,7 @@ urlpatterns = [
     # path('admin/', admin.site.urls),
     url(r'^$', views.index),
     url(r'^index$', views.index),
+    url(r'^get_image_dirs$', views.get_image_dirs, name="get_image_dirs"),
     # url(r'^individual$', views.individual),
     # url(r'^overall$', views.overall),
     # url(r'^num_diabetes_complication$', views.scatterData, name='num_diabetes_complication'),
