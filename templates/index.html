@@ -4,23 +4,23 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 
-    <link rel="stylesheet" href="//unpkg.com/element-plus/dist/index.css"/>
+    <link rel="stylesheet" href="{% static 'css/element-plus@2.2.29/dist/index.css' %}"/>
 
     <script src="{% static 'js/vue@3.2.47/dist/vue.global.js' %}"></script>
     <script src="{% static 'js/@element-plus/icons-vue@2.0.10/dist/index.iife.min.js' %}"></script>
     <script src="{% static 'js/element-plus@2.2.29/dist/index.full.js' %}"></script>
-    <script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>
+    <script src="{% static 'js/axios@1.1.2/dist/axios.min.js' %}"></script>
 
     {#    <script src="//unpkg.com/vue@3"></script>#}
     {#    <script src="//unpkg.com/element-plus"></script>#}
     {#    <script src="//unpkg.com/@element-plus/icons-vue"></script>#}
 
-    <title>Element Plus demo</title>
+    <title>I Want BV</title>
 </head>
 <body>
 <div id="app" style="font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB',
   'Microsoft YaHei', '微软雅黑', Arial, sans-serif;">
-    <div class="common-layout">
+    <div>
         <el-container>
             <el-header style="background-color:#545c64">
                 <div>
@@ -30,30 +30,34 @@
                 <el-divider></el-divider>
             </el-header>
             <el-container>
-                <el-aside width="200px">
+                <el-header style="background-color:#545c64">
+
                     <el-menu
-                            active-text-color="#ffd04b"
+                            {#                            :default-active="activeIndex2"#}
+                            class="el-menu-demo"
+                            mode="horizontal"
                             background-color="#545c64"
-                            class="el-menu-vertical-demo"
-                            default-active="1"
                             text-color="#fff"
-                            @open="handleOpen"
-                            @close="handleClose"
+                            active-text-color="#ffd04b"
+                            {#                            @select="handleSelect"#}
                     >
+                        <el-menu-item index="1">
+                            <el-icon>
+                                <Picture-Filled></Picture-Filled>
+                            </el-icon>
+                            <span>图片</span>
+                        </el-menu-item>
                         <el-menu-item index="2">
                             <el-icon>
                                 <Video-Play></Video-Play>
                             </el-icon>
                             <span>视频</span>
                         </el-menu-item>
-                        <el-menu-item index="4">
-                            <el-icon>
-                                <Picture-Filled></Picture-Filled>
-                            </el-icon>
-                            <span>图片</span>
-                        </el-menu-item>
+
                     </el-menu>
-                </el-aside>
+                </el-header>
+
+
                 <el-container>
                     <el-main>
                         {#                        <el-image style="width: 1920px; height: 1080px"#}
@@ -62,13 +66,38 @@
                         {#                                  fit="scale-down">#}
                         {##}
                         {#                        </el-image>#}
+                        <template v-for="i in rows">
+                            <el-row :gutter="20" justify="start">
+                                <template v-for="j in cols">
+                                    <el-col v-if="(i - 1) * cols + j - 1 < image_dirs.length" :span="4">
+                                        <el-card style="margin-bottom: 20px" :body-style="{ padding: '0px', width: '120px' }">
+                                            <img src="{% static 'image/folder.png' %}" class="image" alt=""/>
+                                            <div style="padding: 14px">
+                                                <span>{$ image_dirs[(i - 1) * cols + j - 1]['dir'] $}</span>
+                                            </div>
+                                        </el-card>
 
+                                    </el-col>
+                                </template>
+                            </el-row>
+                        </template>
+                        {#                        <el-row>#}
+                        {#                            <el-col :span="12">#}
+                        {#                                <div class="grid-content ep-bg-purple"/>#}
+                        {#                            </el-col>#}
+                        {#                            <el-col :span="12">#}
+                        {#                                <div class="grid-content ep-bg-purple-light"/>#}
+                        {#                            </el-col>#}
+                        {#                        </el-row>#}
+                        {#                        <template v-for="image_dir in image_dirs" :key="image_dir">#}
+                        {#                            <li>{{ item.msg }}</li>#}
+                        {#                            <li class="divider" role="presentation"></li>#}
+                        {#                        </template>#}
 
-                                <div v-for="fit in image_dirs" :key="fit" class="block">
-                                    <span>{$ fit $}</span>
-                                    <span>hhh</span>
-                                    {#                                <el-image style="width: 100px; height: 100px" :src="url" :fit="fit"/>#}
-                                </div>
+                        {#                        <div v-for="fit in image_dirs" :key="fit" class="block">#}
+                        {#                            <span>{$ fit $}</span>#}
+                        {#                                <el-image style="width: 100px; height: 100px" :src="url" :fit="fit"/>#}
+                        {#                        </div>#}
 
 
                         {#                        {{ image_dirs }}#}
@@ -76,7 +105,7 @@
 
                 </el-container>
             </el-container>
-            <el-footer>Footer</el-footer>
+            {#            <el-footer>Footer</el-footer>#}
         </el-container>
     </div>
 </div>
@@ -85,16 +114,21 @@
         data() {
             return {
                 message: "Hello Element Plus",
-                image_dirs: []
-                {#logo:'file:///E:/user/84978/images/风之领域/风之领域 [001][49P]/www.xiuxiqu.vip]FENG-012.jpg'#}
+                image_dirs: [],
+                cols: 0,
+                rows: 0,
             };
         },
         mounted() {
-            const self = this;
+            const self = this; // https://blog.csdn.net/weixin_46012752/article/details/123549029
             axios.get("{% url 'get_image_dirs' %}")
                 .then(function (response) {
                     self.image_dirs = response['data']['image_dirs'];
-                    console.log(self.image_dirs);
+                    self.cols = 6;
+                    self.rows = Math.floor((self.image_dirs.length - 1) / self.cols) + 1;
+                    console.log("image_dirs", self.image_dirs);
+                    console.log("cols", self.cols);
+                    console.log("rows", self.rows);
                 })
                 .catch(function (error) { // 请求失败处理
                     console.log(error);

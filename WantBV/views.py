@@ -5,24 +5,26 @@ from django.http import HttpResponse, HttpRequest, JsonResponse
 from django.shortcuts import render
 
 from WantBV.settings import STATICFILES_DIRS
-STATICFILES_DICT = {x[0]:x[1] for x in STATICFILES_DIRS}
+
+STATICFILES_DICT = {x[0]: x[1] for x in STATICFILES_DIRS}
+
 
 def index(request):
-
-
-
     ctx = {
-        "image": base64.b64encode(open(r"E:\user\84978\images\杂项\蓝白条纹\1.jpg","rb").read()).decode("utf-8"),
+        "image": base64.b64encode(open(r"E:\user\84978\images\杂项\蓝白条纹\1.jpg", "rb").read()).decode("utf-8"),
         # "image_dirs":image_dirs
     }
     # print(ctx)
     return render(request, 'index.html', ctx)
+
+
 def get_image_dirs(request):
-    print("request:",request)
+    print("request:", request)
     # if request.GET:
     images_dir = STATICFILES_DICT["images"]
     dbtype_list = os.listdir(images_dir)
-    image_dirs = [os.path.join(images_dir, f) for f in dbtype_list if os.path.isdir(os.path.join(images_dir, f))]
+    image_dirs = [{'full_dir': os.path.join(images_dir, f), 'dir': f}
+                  for f in dbtype_list if os.path.isdir(os.path.join(images_dir, f))]
     print(image_dirs)
     ret = {'image_dirs': image_dirs}
     ret = JsonResponse(ret)

@@ -118,6 +118,7 @@ STATICFILES_DIRS = [
     ('data', os.path.join(STATIC_ROOT, "data")),
     ('font-awesome', os.path.join(STATIC_ROOT, "font-awesome")),
     ('images', r"E:\user\84978\images"),
+    ('image', os.path.join(STATIC_ROOT, "image")),
     ('js', os.path.join(STATIC_ROOT, "js")),
     ('plugins', os.path.join(STATIC_ROOT, "plugins")),
 ]
