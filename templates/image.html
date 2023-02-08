@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block mainbody %}
+    {#                        <el-image style="width: 1920px; height: 1080px"#}
+    {#                                  src="data:image/png;base64,{{ image }}"#}
+    {#                                  src="{% static 'images/h.jpg' %}"#}
+    {#                                  fit="scale-down">#}
+    {##}
+    {#                        </el-image>#}
+    <template v-for="i in rows">
+        <el-row :gutter="20" justify="start">
+            <template v-for="j in cols">
+                <el-col v-if="(i - 1) * cols + j - 1 < image_dirs.length" :span="4">
+                    <el-card style="margin-bottom: 20px"
+                             :body-style="{ padding: '0px', width: '120px' }">
+                        <img src="{% static 'image/folder.png' %}" class="image" alt=""/>
+                        <div style="padding: 14px">
+                            <span>{$ image_dirs[(i - 1) * cols + j - 1]['dir'] $}</span>
+                        </div>
+                    </el-card>
+                </el-col>
+            </template>
+        </el-row>
+    </template>
+    <script>
+        const App = {
+            data() {
+                return {
+                    message: "Hello Element Plus",
+                    image_dirs: [],
+                    cols: 0,
+                    rows: 0,
+                };
+            },
+            mounted() {
+                const self = this; // https://blog.csdn.net/weixin_46012752/article/details/123549029
+                axios.get("{% url 'get_image_dirs' %}")
+                    .then(function (response) {
+                        self.image_dirs = response['data']['image_dirs'];
+                        self.cols = 6;
+                        self.rows = Math.floor((self.image_dirs.length - 1) / self.cols) + 1;
+                        console.log("image_dirs", self.image_dirs);
+                        console.log("cols", self.cols);
+                        console.log("rows", self.rows);
+                    })
+                    .catch(function (error) { // 请求失败处理
+                        console.log(error);
+                    });
+            },
+            delimiters: ['{$', '$}'], // 默认的delimiters与 django相同，修改之
+        };
+        const url =
+            'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg';
+        const app = Vue.createApp(App);
+        for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+            app.component(key, component);
+        }
+        app.use(ElementPlus);
+        app.mount("#app");
+    </script>
+{% endblock %}

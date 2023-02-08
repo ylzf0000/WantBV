@@ -60,51 +60,13 @@
 
                 <el-container>
                     <el-main>
-                        {#                        <el-image style="width: 1920px; height: 1080px"#}
-                        {#                                  src="data:image/png;base64,{{ image }}"#}
-                        {#                                  src="{% static 'images/风之领域/风之领域 [007] [50P]/www.xiuxiqu.vip]FZLY-011.jpg' %}"#}
-                        {#                                  fit="scale-down">#}
-                        {##}
-                        {#                        </el-image>#}
-                        <template v-for="i in rows">
-                            <el-row :gutter="20" justify="start">
-                                <template v-for="j in cols">
-                                    <el-col v-if="(i - 1) * cols + j - 1 < image_dirs.length" :span="4">
-                                        <el-card style="margin-bottom: 20px" :body-style="{ padding: '0px', width: '120px' }">
-                                            <img src="{% static 'image/folder.png' %}" class="image" alt=""/>
-                                            <div style="padding: 14px">
-                                                <span>{$ image_dirs[(i - 1) * cols + j - 1]['dir'] $}</span>
-                                            </div>
-                                        </el-card>
-                                    </el-col>
-                                </template>
-                            </el-row>
-                        </template>
-                        {#                        <el-row>#}
-                        {#                            <el-col :span="12">#}
-                        {#                                <div class="grid-content ep-bg-purple"/>#}
-                        {#                            </el-col>#}
-                        {#                            <el-col :span="12">#}
-                        {#                                <div class="grid-content ep-bg-purple-light"/>#}
-                        {#                            </el-col>#}
-                        {#                        </el-row>#}
-                        {#                        <template v-for="image_dir in image_dirs" :key="image_dir">#}
-                        {#                            <li>{{ item.msg }}</li>#}
-                        {#                            <li class="divider" role="presentation"></li>#}
-                        {#                        </template>#}
-
-                        {#                        <div v-for="fit in image_dirs" :key="fit" class="block">#}
-                        {#                            <span>{$ fit $}</span>#}
-                        {#                                <el-image style="width: 100px; height: 100px" :src="url" :fit="fit"/>#}
-                        {#                        </div>#}
-
-
-                        {#                        {{ image_dirs }}#}
+                        {% block mainbody %}
+                            <div class="row">
+                            </div>
+                        {% endblock %}
                     </el-main>
-
                 </el-container>
             </el-container>
-            {#            <el-footer>Footer</el-footer>#}
         </el-container>
     </div>
 </div>

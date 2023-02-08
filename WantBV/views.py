@@ -9,13 +9,13 @@ from WantBV.settings import STATICFILES_DIRS
 STATICFILES_DICT = {x[0]: x[1] for x in STATICFILES_DIRS}
 
 
-def index(request):
+def image(request):
     ctx = {
-        "image": base64.b64encode(open(r"E:\user\84978\images\杂项\蓝白条纹\1.jpg", "rb").read()).decode("utf-8"),
+
         # "image_dirs":image_dirs
     }
     # print(ctx)
-    return render(request, 'index.html', ctx)
+    return render(request, 'image.html', ctx)
 
 
 def get_image_dirs(request):
